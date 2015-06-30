@@ -44,7 +44,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"H:\/AIE PART2\/tileset.png",
+         "image":"tileset.png",
          "imageheight":1024,
          "imagewidth":1024,
          "margin":2,
@@ -63,6 +63,10 @@
 };
 
 var LAYER_COUNT = level.layer.length;
+var LAYER_BACKGOUND = 0;
+var LAYER_PLATFORMS = 1;
+var LAYER_LADDERS = 2;
+
 var TILESET_PADDING = level.tilesets[0].margin;
 
 var TILESET_COUNT_X = 14;
@@ -72,9 +76,86 @@ var TILE = level.tilewidth;
 var TILESET_TILE = level.tilesets[0].tilewidth;
 var TILESET_SPACING= level.tilesets[0].spacing;
 
+var MAP = {};
+MAP.tw = level.layer[0].width ;
+MAP.th = level.layer[0].height ;
+
 var tileset = document.createElement("img");
 tileset.src = level.tilesets[0].image;
+
+var cells = [];
+
+function initialize ()
+{
+    for (var layerIdx = 0; layerIdx < LAYER_COUNT; layerIdx++)
+	{
+	     cells [layerIdx] = [];
+		 var Idx = 0
+		 for(var y = 0; y < level.layer[layerIdx].height; y++) 
+		{
+			cells[layerIdx][y] = [];
+			for(var x = 0; x < level.layer[layerIdx].width; x++) 
+			{
+				if(level.layer[layerIdx].data[Idx] != 0) 
+				{
+					 cells[layerIdx][y][x] = 1;
+					 cells[layerIdx][y-1][x] = 1;
+					 cells[layerIdx][y-1][x+1] = 1;
+					 cells[layerIdx][y][x+1] = 1; 
+				}
+					else if(cells[layerIdx][y][x] != 1)
+					{
+					cells[layerIdx][y][x] = 0
+					}
+				Idx++;
+			}
+		}
+	}
+}
  
+function cellAtPixelCoord(layer, x,y)
+{
+	if(x<0 || x>SCREEN_WIDTH || y<0)
+		return 1;
+		
+	if(y>SCREEN_HEIGHT)
+		return 0;
+		
+	return cellAtTileCoord(layer, pixel2tile(x), pixel2tile(y));
+};
+
+function cellAtTileCoord(layer, tx, ty)
+{
+	if(tx<0 || tx>=MAP.tw || ty<0)
+		return 1;
+		
+	if(ty>=MAP.th)
+		return 0;
+	
+	return cells[layer][ty][tx];
+};
+
+function tileToPixel(tile) 
+{
+	return tile * TILE;
+};
+
+function pixel2tile(pixel)
+{
+	return Math.floor(pixel/TILE);
+};
+
+function bound(value, min, max)
+{
+	if(value < min)
+		return min;
+		
+	if(value > max)
+		return max;
+		
+	return value;
+};
+
 function drawMap()
 {
     for  (var layerIdx = 0 ; layerIdx < LAYER_COUNT; layerIdx++)
@@ -89,7 +170,7 @@ function drawMap()
 					var titleIndex = level.layer[ layerIdx ].data[ Idx ] - 1;
 					var sx = TILESET_PADDING + (titleIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING);
 					var sy = TILESET_PADDING + (Math.floor(titleIndex / TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
-					
+				
 					context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE,
 					x * TILE, (y-1) * TILE, TILESET_TILE, TILESET_TILE);
 				}

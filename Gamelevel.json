@@ -22,7 +22,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"AIE PART2\/tileset.png",
+         "image":"tileset.png",
          "imageheight":1024,
          "imagewidth":1024,
          "margin":2,

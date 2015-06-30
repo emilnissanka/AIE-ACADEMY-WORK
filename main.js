@@ -4,9 +4,6 @@ var context = canvas.getContext("2d");
 var startFrameMillis = Date.now();
 var endFrameMillis = Date.now();
 
-// This function will return the time in seconds since the function 
-// was last called
-// You should only call this function once per frame
 function getDeltaTime()
 {
 	endFrameMillis = startFrameMillis;
@@ -32,39 +29,26 @@ function getDeltaTime()
 var SCREEN_WIDTH = canvas.width;
 var SCREEN_HEIGHT = canvas.height;
 
-
-// some variables to calculate the Frames Per Second (FPS - this tells use
-// how fast our game is running, and allows us to make the game run at a 
-// constant speed)
 var fps = 0;
 var fpsCount = 0;
 var fpsTime = 0;
-
-// load an image to draw
-var chuckNorris = document.createElement("img");
-chuckNorris.src = "hero.png";
+var chuck
 
 var keyboard = new keyboard ();
 var chuck = new player ();
 
-function run()
+initialize ();
 
+function run () 
 {
 	context.fillStyle = "#ccc";		
 	context.fillRect(0, 0, canvas.width, canvas.height);
 	
 	var deltaTime = getDeltaTime();
 	chuck.Update(deltaTime);
-	
+	drawMap(); 
 	chuck.Draw();
-	drawMap (); 
-	
-	context.drawImage(chuckNorris, SCREEN_WIDTH/2 - chuckNorris.width/2, SCREEN_HEIGHT/2 - chuckNorris.height/2);
-	
-	//context.drawImage(chuckNorris, SCREEN_WIDTH/1.25 - chuckNorris.width/2, SCREEN_HEIGHT/2 - chuckNorris.height/2);
-	
-		
-	// update the frame counter 
+			
 	fpsTime += deltaTime;
 	fpsCount++;
 	if(fpsTime >= 1)
@@ -73,8 +57,6 @@ function run()
 		fps = fpsCount;
 		fpsCount = 0;
 	}		
-		
-	// draw the FPS
 	context.fillStyle = "#f00";
 	context.font="14px Arial";
 	context.fillText("FPS: " + fps, 5, 20, 100);
