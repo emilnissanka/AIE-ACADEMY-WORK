@@ -156,7 +156,7 @@ function bound(value, min, max)
 	return value;
 };
 
-function drawMap()
+function drawMap(_Cam_X,_Cam_Y)
 {
     for  (var layerIdx = 0 ; layerIdx < LAYER_COUNT; layerIdx++)
 	{
@@ -172,7 +172,7 @@ function drawMap()
 					var sy = TILESET_PADDING + (Math.floor(titleIndex / TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
 				
 					context.drawImage(tileset, sx, sy, TILESET_TILE, TILESET_TILE,
-					x * TILE, (y-1) * TILE, TILESET_TILE, TILESET_TILE);
+					x * TILE -_Cam_X, (y-1) * TILE, TILESET_TILE-_Cam_Y, TILESET_TILE);
 				}
 				Idx++;
 			}
