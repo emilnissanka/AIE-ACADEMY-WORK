@@ -11,6 +11,7 @@ var JUMP = METER * 1500;
 var LEFT = 0;
 var RIGHT = 1;
 var UP = 2;
+var SHIFT = 3;
 
 var ANIM_IDLE_LEFT = 0;
 var ANIM_JUMP_LEFT = 1;
@@ -88,9 +89,11 @@ var player = function()
 	this.falling = true;
 	this.jumping = true;
 	this.climbing = true;
-	this.shooting
+	this.shoot_left = true;
+	this.shoot_right = true;
 	
 	this.direction = RIGHT;
+	
 	//this.image = document.createElement("img");
 	//this.image.src = "hero.png";
 };
@@ -110,20 +113,29 @@ player.prototype.Update = function(deltaTime)
 	var celldown = cellAtTileCoord(LAYER_PLATFORMS, tx, ty + 1);
     var celldiag = cellAtTileCoord(LAYER_PLATFORMS, tx + 1, ty + 1);
 	
-	var left, right, jump, climbing;
-	left = right = jump = climbing = false;
+	var left, right, jump, shoot_left, shoot_right;
+	left = right = jump = shoot_left = shoot_right = false;
 	
 
-	if (keyboard.isKeyDown(keyboard.KEY_LEFT))
+	if (keyboard.isKeyDown(keyboard.KEY_LEFT)  && this.shoot_left == false && this.shoot_right == false)
 	{
 		left = true;
 		this.direction = LEFT;
 		if (this.sprite.currentAnimation != ANIM_WALK_LEFT && 
 				this.jumping == false)
 		this.sprite.setAnimation(ANIM_WALK_LEFT)
+		
+		if (keyboard.isKeyDown(keyboard.KEY_SHIFT))
+		{
+			this.shoot_left = true;
+			
+			this.shoot_right = false;
+		}
+		
+		//this.sprite.setAnimation(ANIM_SHOOT_LEFT);
 	}
 	
-	 else if (keyboard.isKeyDown(keyboard.KEY_RIGHT))
+	 else if (keyboard.isKeyDown(keyboard.KEY_RIGHT) && this.shoot_left == false && this.shoot_right == false)
 	{
 		right = true;
 		this.direction = RIGHT;
@@ -134,7 +146,7 @@ player.prototype.Update = function(deltaTime)
 	
 	else
 	{
-		if (this.jumping == false && this.falling == false)
+		if (this.jumping == false && this.falling == false && this.shoot_left == false && this.shoot_right == false)
 		{
 			if(this.direction == LEFT)
 			{
@@ -146,37 +158,15 @@ player.prototype.Update = function(deltaTime)
 			{
 				if(this.direction == RIGHT)
 				{
-				if (this.sprite.currentAnimation != ANIM_IDLE_RIGHT)
+	 			if (this.sprite.currentAnimation != ANIM_IDLE_RIGHT)
 					this.sprite.setAnimation(ANIM_IDLE_RIGHT)
 				}
 			}
 		}
 	}
 	
-	if (keyboard.isKeyDown(keyboard.KEY_SHIFT))
-	{
-		shooting = true;
-		this.direction = left;
-		if (this.sprite.currentAnimation != ANIM_SHOOT_LEFT && 
-				this.shooting == false)
-		this.sprite.setAnimation(ANIM_SHOOT_LEFT)
-	}
-	else if (keyboard.isKeyDown(keyboard.KEY_SHIFT))
-			{
-				if(this.direction == RIGHT)
-				{
-				if (this.sprite.currentAnimation != ANIM_SHOOT_RIGHT)
-					this.sprite.setAnimation(ANIM_SHOOT_RIGHT)
-				}
-			}
-		
-
-	
-	
 	jump = keyboard.isKeyDown(keyboard.KEY_SPACE);
-	climb = keyboard.isKeyDown(keyboard.KEY_UP);
-	shoot = keyboard.isKeyDown(keyboard.KEY_SHIFT);
-	
+		
 	var wasleft = this.velocityX < 0;
 	var wasright = this.velocityX > 0;  
 	
@@ -203,12 +193,11 @@ player.prototype.Update = function(deltaTime)
 		
 		ddy = ddy - JUMP; 
 		this.jumping = true;
+		
 		if (this.direction == LEFT)
 			this.sprite.setAnimation(ANIM_JUMP_LEFT);
 		else
-			this.sprite.setAnimation(ANIM_JUMP_RIGHT);
-		
-		
+			this.sprite.setAnimation(ANIM_JUMP_RIGHT);	
 	}
 	
 	this.x = Math.floor(this.x + (deltaTime * this.velocityX));
@@ -269,26 +258,54 @@ player.prototype.Update = function(deltaTime)
 		this.rotation = (this.velocityX / MAXDX) * (Math.PI/8);
 	}
 	else if (this.velocityX < 0)
-		{	
-			this.rotation = (this.velocityX / MAXDX) * (Math.PI/8);
+	{	
+		this.rotation = (this.velocityX / MAXDX) * (Math.PI/8);
+	}
+	else
+	{
+		this.rotation = 0;
+	}	
+		
+	if (keyboard.isKeyDown(keyboard.KEY_SHIFT))
+	{
+		if(this.direction == LEFT)
+		{
+			if (this.sprite.currentAnimation != ANIM_SHOOT_LEFT && !this.shoot_left)
+				this.sprite.setAnimation(ANIM_SHOOT_LEFT);
+				
+			this.shoot_left = true;
+			this.shoot_right = false;
 		}
 		else
-			{
-				this.rotation = 0;
-			}	
+		{
+			
+			if (this.sprite.currentAnimation != ANIM_SHOOT_RIGHT && !this.shoot_right)
+				this.sprite.setAnimation(ANIM_SHOOT_RIGHT);
+				
+			this.shoot_left = false;
+			this.shoot_right = true;
+		}
+	}
+	else
+	{
+		this.shoot_left = false;
+		this.shoot_right = false;
+	}
+	
+	
 }
 
 
 player.prototype.Draw = function(_Cam_X, _Cam_Y)
 {
-	 this.sprite.draw(context, this.x -_Cam_X, this.y -_Cam_Y)
-		//context.save(); 
-	    //context.translate(this.x, this.y);
-		//context.rotate(this.rotation);
-		//context.drawImage(this.image,
-		                //-this.width /2,
-						 //-this.height/2);
-						
+	this.sprite.draw(context, this.x -_Cam_X, this.y -_Cam_Y)
+	//context.save(); 
+	//context.translate(this.x, this.y);
+	//context.rotate(this.rotation);
+	//context.drawImage(this.image,
+	//                -this.width /2,
+	//				 -this.height/2);
+	//					
 	//context.restore();
 }
 

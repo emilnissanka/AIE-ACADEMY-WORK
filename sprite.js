@@ -138,7 +138,7 @@ Sprite.prototype.draw = function(c, x, y) {
 	// width	Optional. The width of the image to use (stretch or reduce the image)	
 	// height	Optional. The height of the image to use (stretch or reduce the image)
 		
-	c.drawImage(this.image, 
+	context.drawImage(this.image, 
 			this.animations[this.currentAnimation][this.currentFrame].x,
 			this.animations[this.currentAnimation][this.currentFrame].y,
 			this.animations[this.currentAnimation][this.currentFrame].width,
