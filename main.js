@@ -1,18 +1,21 @@
 var canvas = document.getElementById("gameCanvas");
 var context = canvas.getContext("2d");
 
-var background = document.createElement("img");
-background.src = "Forest_background_by_whitewolf16.png";
+var testDiv = document.getElementById("testDiv");
 
 var GAMESTATE_GAME = 0;
 var GAMESTATE_MENU = 1;
-var GAMESTATE_SPLASH = 2;
+var GAMESTATE_ENDGAME = 2;
 var curGameState = GAMESTATE_MENU;
 var menuTimer = 3;
-var Endgame = 0
+
+var heart = document.createElement("img");
+heart.src = "heart.png";
 
 var startFrameMillis = Date.now();
 var endFrameMillis = Date.now();
+
+
 
 function getDeltaTime()
 {
@@ -30,7 +33,7 @@ function getDeltaTime()
 		// validate that the delta is within range
 	if(deltaTime > 1)
 		deltaTime = 1;
-		
+ 		
 	return deltaTime;
 }
 
@@ -45,29 +48,32 @@ var Cam_Y = 0;
 var fps = 0;
 var fpsCount = 0;
 var fpsTime = 0;
-var chuck
 
 var keyboard = new keyboard ();
-var chuck = new player ();
-var enemies = [];
+var chuck = new Player ();
 
-for(var i=0; i< enemies.length; i++)
-	{
-		enemies[i].draw(Cam_X, Cam_Y);
-	}
+var Enemies = [];
 
+for(var i=0; i < 5; i++)
+{
+	Enemies[i] = new Enemy(1000 + i * 30, 420);
+}
 initialize ();
-var musicBackground = new Howl({
+
+var musicBackground = new Howl(
+{
 	urls:["background.ogg"],
 	loop :true,
 	buffer : true,
 	volume : 0.5
 });
+
 musicBackground.play();
 
 var isSfxPlaying = false;
 
-var sfxFire = new Howl({
+var sfxFire = new Howl(
+{
 	urls:["fireEffect.ogg"],
 	buffer : true,
 	volume : 1,
@@ -76,19 +82,16 @@ var sfxFire = new Howl({
 
 function lerp(left_value, right_value, ratio)
 {
-	return left_value + ratio + (right_value - left_value);
+	return left_value + ratio *(right_value - left_value);
 }
 
-
-
-
-function draw()
+function drawbackground ()
 {
-	Menu()
-	drawMap();
-	drawEndgame()
-	enemy();
-}
+	var pattern = context.createPattern(background,'repeat');
+	context.fillStyle = pattern;
+	context.fillRect(0, 0,canvas.width,canvas.height);
+} 
+
 
 function drawMenu(deltaTime)
 {
@@ -104,55 +107,45 @@ function drawMenu(deltaTime)
 	context.font = "70px Tahoma";
 	context.fillText("STARTS IN " +  Math.ceil(menuTimer), canvas.width/1.82 - textMeasure.width/3, canvas.height/3.5);
 	context.fillText("Chuck Norris Version", canvas.width/2.35 - textMeasure.width/3, canvas.height/1.4);
-	
-	
 }
 
-function run (deltaTime) 
+function checkCollision ()
 {
-	context.fillStyle = "#ccc";		
-	context.fillRect(0, 0, canvas.width, canvas.height);
-	context.restore();
+	var Player_min_x = chuck.x + chuck.x_offset;
+	var Player_min_y = chuck.y + chuck.y_offset;
 	
-	var score = 0;
-    context.fillStyle = "green";
-    context.font="32px Arial";
-    var scoreText = "Score: " + score;
-    context.fillText(scoreText, SCREEN_WIDTH - 170, 35);
-    context.restore();
+	var Player_max_x = chuck.x + chuck.width + chuck.x_offset;
+	var Player_max_y = chuck.y + chuck.height + chuck.y_offset;
+	
+	for (var EnemyIndex = 0; EnemyIndex < Enemies.length; EnemyIndex++)
+	{
+		var Enemy_min_x = Enemies[EnemyIndex].x + Enemies[EnemyIndex].x_offset;
 		
-	var deltaTime = getDeltaTime();
-	
-	chuck.Update(deltaTime);
+		var Enemy_min_y = Enemies[EnemyIndex].y + Enemies[EnemyIndex].y_offset;
+		
+		var Enemy_max_x = 
+			Enemies[EnemyIndex].x +
+			Enemies[EnemyIndex].width +
+			Enemies[EnemyIndex].x_offset;
 			
-	var left_stop = 0 ;
-	var top_stop = 0 ;
-	var right_stop = TILE * (MAP.tw) - SCREEN_WIDTH ;
-	var bottom_stop = TILE * (MAP.th) - SCREEN_HEIGHT ;
-	
-	var new_pos_x = chuck.x - SCREEN_WIDTH / 2;
-	var new_pos_y = chuck.y - SCREEN_HEIGHT / 2;
-	
-	if(new_pos_x < left_stop)
-		new_pos_x = left_stop;
-	else if(new_pos_x > right_stop)
-		new_pos_x = right_stop;
+		var Enemy_max_y =
+			Enemies[EnemyIndex].y +
+			Enemies[EnemyIndex].height +
+			Enemies[EnemyIndex].y_offset;
 		
-	if(new_pos_y < top_stop)
-		new_pos_y = top_stop;
-	else if(new_pos_y > bottom_stop)
-		new_pos_y = bottom_stop;
-	
-	Cam_X = lerp(Cam_X, new_pos_x, 0.25);
-	Cam_Y = lerp(Cam_Y, new_pos_y, 0.25);
-	
-	drawMap(Cam_X, Cam_Y); 
-	chuck.Draw(Cam_X, Cam_Y);
-	enemy.prototype.draw(Cam_X, Cam_Y);
-	
-	//Cam_X = chuck.x - SCREEN_WIDTH /2;
-	//Cam_Y = chuck.y - SCREEN_HEIGHT /2;
-	
+		if (((Player_max_x < Enemy_min_x) || (Player_min_x > Enemy_max_x)) || 
+		((Player_max_y < Enemy_min_y) || (Player_min_y > Enemy_max_y)))
+		{
+			continue;
+		}
+		chuck.lives --;
+		chuck.reset();
+		return;	
+	}
+}
+
+function run (delatTime) 
+{	
 	fpsTime += deltaTime;
 	fpsCount++;
 	if(fpsTime >= 1)
@@ -162,52 +155,128 @@ function run (deltaTime)
 		fpsCount = 0;
 	}
 	
-	//context.fillStyle = "#f00";
-	//context.font="14px Arial";
-	//context.fillText(("position" + Math.cell(chuck.x) + ", "+ Math.cell(chuck.y) " + fps, 5, 20, 100);
+	context.fillStyle = "#f00";
+	context.font="14px Arial";
+	context.fillText("FPS: " + fps, 5, 20, 100);
+	
+	context.fillStyle = "#f00";
+	context.font="14px Arial";
+	context.fillText("position: "  + Math.ceil(chuck.x) + ", " + Math.ceil(chuck.y), 60, 30, 100);
+}
+
+function run (delatTime)
+{
+	var deltaTime = getDeltaTime();
+
+	context.fillStyle = "#ccc";		
+	context.fillRect(0, 0, canvas.width, canvas.height);
+	context.restore();
 	
 	switch(curGameState)
 	{
 	case GAMESTATE_GAME:
-		drawMap();
-		chuck.Draw();
-		enemy.prototype.draw();
+	
+		//update code 
+		var left_stop = 0 ;
+		var top_stop = 0 ;
+		var right_stop = TILE * (MAP.tw) - SCREEN_WIDTH ;
+		var bottom_stop = TILE * (MAP.th) - SCREEN_HEIGHT ;
 		
-	break;
+		var new_pos_x = chuck.x - SCREEN_WIDTH / 2;
+		var new_pos_y = chuck.y - SCREEN_HEIGHT / 2;
+		
+		if( new_pos_x < left_stop)
+			new_pos_x = left_stop;
+		
+		else if (new_pos_x > right_stop)
+			new_pos_x = right_stop;
+			
+		if(new_pos_y < top_stop)
+			new_pos_y = top_stop;
+		else if(new_pos_y > bottom_stop)
+			new_pos_y = bottom_stop;
+		
+		Cam_X = lerp(Cam_X, new_pos_x, 0.25);
+		Cam_Y = lerp(Cam_Y, new_pos_y, 0.25);
+	
+	
+		chuck.Update(deltaTime);
+		for (var i = 0; i < Enemies.length; i++)
+		{
+			Enemies[i].update(deltaTime);
+		}
+		
+		checkCollision ();
+		
+		//draw code
+		drawMap(Cam_X, Cam_Y);
+		chuck.Draw (Cam_X, Cam_Y);
+		
+		for (var imageOffset = 0; imageOffset < chuck.lives; imageOffset++)
+		{
+			context.save();
+				context.translate(20 + 50 * imageOffset, 20);
+				context.drawImage(heart, 0 , 0, 50, 50);
+			
+			context.restore();
+		}
+		
+		for (var i = 0; i < Enemies.length; i++)
+		{
+			Enemies[i].Draw(Cam_X, Cam_Y);
+		}
+		
+		if (chuck.lives == 0)
+		{
+			drawEndgame();
+		}
+		
+		context.fillStyle = "green";
+		context.font="32px Arial";
+		var scoreText = "Score: " + chuck.score;
+		context.fillText(scoreText, SCREEN_WIDTH - 170, 35);
+		context.restore();
+
+		var rules = 0;
+		context.fillStyle = " ";
+		context.font="20px Arial";
+		var rulesText = "GET THE HIGHEST SCORE WITHOUT RESPAWNING " ;
+		context.fillText(rulesText, SCREEN_WIDTH - 700, 35);
+	
+		break;
 		
 	case GAMESTATE_MENU:
-		menuTimer -= 0.016;
+		menuTimer -= deltaTime;
 		if (menuTimer > 0)
 			drawMenu();
 		else
 			curGameState = GAMESTATE_GAME;
 			
-	break;
-		
-	case GAMESTATE_SPLASH:
+		break;	
+			
+	case GAMESTATE_ENDGAME:
 		drawEndgame();
-	break;
 		
-	default:
-		document.writeln("Unexpected GameState");
-		//
+		
+		
 	break;
-	}
 	
+	}
 }
 
-function drawEndgame(deltaTime)
+function drawEndgame()
 {
 	context.fillStyle = "#000000";
 	context.fillRect(0, 0,canvas.width,canvas.height);
 	
-	context.fillStyle = "#CC0033";
-	context.font = "144px Tahoma";
-	
+	context.fillStyle = "#B22222";
+	context.font = "72px Tahoma";
 	var textMeasure = context.measureText ("SPLASH SCREEN" + Math.floor (menuTimer));
-	context.fillText("GAME OVER", canvas.width/2.4 - textMeasure.width/3, canvas.height/1.5);
-	context.font = "40px Tahoma";
-	context.fillText("Press F5 to Restart", canvas.width/1.85 - textMeasure.width/3, canvas.height/3.5);
+	context.fillText("GAME OVER: YOU LOSE", canvas.width/1.7 - textMeasure.width/1.28, canvas.height/2);
+	
+	context.fillStyle = "#B22222";
+	context.font = "60px Tahoma";
+	context.fillText("Press F5 to Restart", canvas.width/2.2 - textMeasure.width/3, canvas.height/1.5);
 
 }
 

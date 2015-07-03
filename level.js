@@ -1,5 +1,5 @@
  var level = { "height":15,
- "layer" : [
+ "layers" : [
         {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 165, 0, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 0, 0, 165, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 148, 0, 0, 0, 0, 0, 0, 0, 148, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 163, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 154, 0, 154, 0, 154, 0, 0, 0, 0, 0, 154, 0, 154, 0, 154, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 154, 0, 0],
          "height":15,
@@ -62,7 +62,7 @@
  "width":60,
 };
 
-var LAYER_COUNT = level.layer.length;
+var LAYER_COUNT = level.layers.length;
 var LAYER_BACKGOUND = 0;
 var LAYER_PLATFORMS = 1;
 var LAYER_LADDERS = 2;
@@ -77,8 +77,8 @@ var TILESET_TILE = level.tilesets[0].tilewidth;
 var TILESET_SPACING= level.tilesets[0].spacing;
 
 var MAP = {};
-MAP.tw = level.layer[0].width ;
-MAP.th = level.layer[0].height ;
+MAP.tw = level.layers[0].width ;
+MAP.th = level.layers[0].height ;
 
 var tileset = document.createElement("img");
 tileset.src = level.tilesets[0].image;
@@ -91,12 +91,12 @@ function initialize ()
 	{
 	     cells [layerIdx] = [];
 		 var Idx = 0
-		 for(var y = 0; y < level.layer[layerIdx].height; y++) 
+		 for(var y = 0; y < level.layers[layerIdx].height; y++) 
 		{
 			cells[layerIdx][y] = [];
-			for(var x = 0; x < level.layer[layerIdx].width; x++) 
+			for(var x = 0; x < level.layers[layerIdx].width; x++) 
 			{
-				if(level.layer[layerIdx].data[Idx] != 0) 
+				if(level.layers[layerIdx].data[Idx] != 0) 
 				{
 					 cells[layerIdx][y][x] = 1;
 					 cells[layerIdx][y-1][x] = 1;
@@ -115,7 +115,7 @@ function initialize ()
  
 function cellAtPixelCoord(layer, x,y)
 {
-	if(x<0 || x>SCREEN_WIDTH || y<0)
+	if(x<0 || x > SCREEN_WIDTH || y<0)
 		return 1;
 		
 	if(y>SCREEN_HEIGHT)
@@ -161,13 +161,13 @@ function drawMap(_Cam_X,_Cam_Y)
     for  (var layerIdx = 0 ; layerIdx < LAYER_COUNT; layerIdx++)
 	{
 		var Idx = 0;
-		for ( var y = 0; y < level.layer[layerIdx].height; y++)
+		for ( var y = 0; y < level.layers[layerIdx].height; y++)
 		{
-			for ( var x= 0; x < level.layer[layerIdx].width; x++)
+			for ( var x= 0; x < level.layers[layerIdx].width; x++)
 			{
-				if ( level.layer[layerIdx].data[Idx] != 0)
+				if ( level.layers[layerIdx].data[Idx] != 0)
 				{
-					var titleIndex = level.layer[ layerIdx ].data[ Idx ] - 1;
+					var titleIndex = level.layers[ layerIdx ].data[ Idx ] - 1;
 					var sx = TILESET_PADDING + (titleIndex % TILESET_COUNT_X) * (TILESET_TILE + TILESET_SPACING);
 					var sy = TILESET_PADDING + (Math.floor(titleIndex / TILESET_COUNT_Y)) * (TILESET_TILE + TILESET_SPACING);
 				

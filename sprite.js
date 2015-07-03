@@ -1,5 +1,6 @@
 
-var Frame = function(x, y, width, height, duration){
+var Frame = function(x, y, width, height, duration)
+{
 	this.x = x;
 	this.y = y;
 	this.width = width;
@@ -7,7 +8,8 @@ var Frame = function(x, y, width, height, duration){
 	this.duration = duration;
 };
 
-var Sprite = function(filename) {
+var Sprite = function (filename) 
+{
 	if(filename != null)
 	{
 		this.image = document.createElement("img");
@@ -46,11 +48,13 @@ Sprite.prototype.getFrameHeight = function()
 	return this.animations[this.currentAnimation][this.currentFrame].height;
 };
 
-Sprite.prototype.setLoop = function(loop) {
+Sprite.prototype.setLoop = function(loop) 
+{
 	return this.loop = loop;
 };
 
-Sprite.prototype.setAnimationOffset = function(anim, _x, _y) {
+Sprite.prototype.setAnimationOffset = function(anim, _x, _y)
+ {
 	//this.offsets[anim].set(x, y);
 	this.offsets[anim] = {};
 	this.offsets[anim].x = _x;
@@ -58,7 +62,8 @@ Sprite.prototype.setAnimationOffset = function(anim, _x, _y) {
 	
 };
 
-Sprite.prototype.getAnimationOffset = function() {
+Sprite.prototype.getAnimationOffset = function()
+{
 	return this.offsets[this.currentAnimation];
 }
 
@@ -93,7 +98,8 @@ Sprite.prototype.isFinished = function()
 	return false;
 }
 
-Sprite.prototype.update = function(dt) {
+Sprite.prototype.update = function(dt)
+{
 	if(this.animations.length == 0)
 		return;
 	if(this.animations[this.currentAnimation].length == 0)
